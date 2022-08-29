@@ -1,7 +1,10 @@
 import { QueryString } from "./lib/query-string";
-import { handleQuery } from "./lib/query-processing";
+import { handleQuery, isQueryString } from "./lib/query-processing";
 
 export namespace Query {
     export const New = QueryString.New;
-    export const Handle = handleQuery;
+    export namespace Handle {
+        export const Process = handleQuery;
+        export const IsQueryString = isQueryString;
+    }
 }

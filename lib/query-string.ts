@@ -18,7 +18,7 @@ export namespace QueryString {
     export namespace Tools {
         /** build a query string */
         export function buildQS(value: any, comparison: string, target: string) {
-            return `${Crypto.encode(value)}${comparison}${target}`;
+            return `${QueryTokens.QueryStringSignature}${Crypto.encode(value)}${comparison}${target}`;
         }
         /** parse a query string */
         export function parseQS(qs: string) {
