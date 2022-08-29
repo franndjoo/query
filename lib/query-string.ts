@@ -8,9 +8,11 @@ export namespace QueryString {
         export function isEqual(value: any) {
             return QueryString.Tools.buildQS(value, QueryTokens.Equality, QueryTokens.RemoteValue)
         }
+        /** is the value pushed in the function lower than the remote value */
         export function isLower(value: any) {
             return QueryString.Tools.buildQS(value, QueryTokens.Lowerness, QueryTokens.RemoteValue)
         }
+        /** is the value pushed in the function higher than the remote value */
         export function isHigher(value: any) {
             return QueryString.Tools.buildQS(value, QueryTokens.Higherness, QueryTokens.RemoteValue)
         }
