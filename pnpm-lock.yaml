@@ -1,0 +1,19 @@
+lockfileVersion: 5.4
+
+specifiers:
+  '@johanmnto/crypto': ^1.0.0
+  '@johanmnto/testings': ^1.0.7
+
+dependencies:
+  '@johanmnto/crypto': 1.0.0
+  '@johanmnto/testings': 1.0.7
+
+packages:
+
+  /@johanmnto/crypto/1.0.0:
+    resolution: {integrity: sha512-M/CnUvkV8cxr3p2COG3PhQJpaTFpBOyJjiSdxKrQxysm5hXoOIwK15aO14+nldNA5TrggrPrDp2yAqG284RZvw==}
+    dev: false
+
+  /@johanmnto/testings/1.0.7:
+    resolution: {integrity: sha512-rbpJf/0O1N2HuVnW17use674axZVO/Dsyqyx3Yo2dE1r5GztbEt/IvNpIeofJFhVMTdO2FD1uabbaoRRcExmIA==}
+    dev: false

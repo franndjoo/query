@@ -1,0 +1,19 @@
+{
+    "name": "@johanmnto/query",
+    "version": "1.0.0",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "description": "A query package I personnally use in all of my projects.",
+    "keywords": [
+        "query"
+    ],
+    "author": "Johan Montorfano <me@johanmontorfano.com>",
+    "license": "ISC",
+    "scripts": {
+        "build": "tsc"
+    },
+    "dependencies": {
+        "@johanmnto/crypto": "^1.0.0",
+        "@johanmnto/testings": "^1.0.7"
+    }
+}
