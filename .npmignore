@@ -1,4 +1,5 @@
 index.ts
 tsconfig.json
+.gitignore
 lib/
 tests/
