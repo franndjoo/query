@@ -18,6 +18,10 @@ export namespace QueryString {
         }
     }
     export namespace Tools {
+        /** check if a `querystring` is really a query string */
+        export function isQueryString(qs: string) {
+            return qs.startsWith(QueryTokens.QueryStringSignature);
+        }
         /** build a query string */
         export function buildQS(value: any, comparison: string, target: string) {
             return `${QueryTokens.QueryStringSignature}${Crypto.encode(value)}${comparison}${target}`;

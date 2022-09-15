@@ -4,5 +4,6 @@ export enum QueryTokens {
     Lowerness = "&low<",
     Higherness = "&high>",
     RemoteValue = "@remv_",
-    QueryStringSignature = "&QS-V1."
+    QueryStringSignature = "&QS-V1.",
+    QueryGroupSignature = "&QSG-V1."
 }
