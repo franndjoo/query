@@ -7,7 +7,7 @@ Install this library:
 
 ## How to use
 ### Use query string with a single condition
-A query string with a single condition is created by calling `Query.Handle.New.[isEqual,isLower,isHigher]`.
+A query string with a single condition is created by calling `Query.New.[isEqual,isLower,isHigher]`.
 You can call the appropriate comparison mode to handle your query string, other comparison modes may be added later.
 
 ```
