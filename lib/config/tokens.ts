@@ -7,3 +7,12 @@ export enum QueryTokens {
     QueryStringSignature = "&QS-V1.",
     QueryGroupSignature = "&QSG-V1."
 }
+
+/** tokens present in a query string to correctly parse the value to compare with the remote value */
+export enum ValueTokens {
+    String = "STR",
+    Number = "NB",
+    Object = "OBJ",
+    Boolean = "BL",
+    ValueTypeSeparator = "->"
+}

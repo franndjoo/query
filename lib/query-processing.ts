@@ -25,7 +25,7 @@ export function handleQuery(qs: string, remoteValue: any, options?: {
     }
 
     if (QueryString.Tools.isQueryString(qs)) qs = qs.replace(QueryTokens.QueryStringSignature, "")
-    else throw Error("The given questring (" + qs + ") is not a query-string")
+    else throw Error("The given string (" + qs + ") is not a query-string")
 
     const parsedQS = QueryString.Tools.parseQS(qs);
     let isOK = false;
