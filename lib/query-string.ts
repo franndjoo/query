@@ -49,7 +49,7 @@ export namespace QueryString {
 
             /** value package to parse */
             const valuePackage = (qs.split(parsedData.method[0]) as string[])[0].split("->");
-            valuePackage[1] = atob(valuePackage[1])
+            valuePackage[1] = Crypto.decode(valuePackage[1]);
             /** determines and parses the value to compare */
             if(valuePackage[0] === ValueTokens.Boolean) parsedData.value = valuePackage[1] === "true"
             else if(valuePackage[0] === ValueTokens.Number) parsedData.value = parseInt(valuePackage[1])
