@@ -31,8 +31,8 @@ export function handleQuery(qs: string, remoteValue: any, options?: {
     let isOK = false;
 
     if (parsedQS.method === QueryTokens.Equality && (options?.lowComparator(parsedQS.value, remoteValue) || parsedQS.value === remoteValue)) isOK = true;
-    if (parsedQS.method === QueryTokens.Higherness && (options?.highComparator(parsedQS.value, remoteValue) || parsedQS.value <= remoteValue)) isOK = true;
-    if (parsedQS.method === QueryTokens.Lowerness && (options?.eqComparator(parsedQS.value, remoteValue) || parsedQS.value >= remoteValue)) isOK = true;
+    if (parsedQS.method === QueryTokens.Higherness && (options?.highComparator(parsedQS.value, remoteValue) || parsedQS.value < remoteValue)) isOK = true;
+    if (parsedQS.method === QueryTokens.Lowerness && (options?.eqComparator(parsedQS.value, remoteValue) || parsedQS.value > remoteValue)) isOK = true;
 
     return {
         result: (onEqual?: () => void, onFail?: () => void) => {
