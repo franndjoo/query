@@ -34,11 +34,13 @@ export namespace QueryString {
         }
     }
     export namespace Tools {
-        /** check if a `querystring` is really a query string
-         * @param strict will only check if the string is a query string, not if it's also a query group (default: false)
-         */
-        export function isQueryString(qs: string, strict = false) {
-            return qs.startsWith(QueryTokens.QueryStringSignature) || (qs.startsWith(QueryTokens.QueryGroupSignature) && !strict);
+        /** check if a `querystring` is really a query string */
+        export function isQueryString(qs: string) {
+            return qs.startsWith(QueryTokens.QueryStringSignature);
+        }
+        /** check if a querygroup is really a query group */
+        export function isQueryGroup(qs: string) {
+            return qs.startsWith(QueryTokens.QueryGroupSignature);
         }
         /** returns the appropriate token value for the value to compare */
         export function getValueToken(value: any) {
