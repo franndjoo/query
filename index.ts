@@ -1,6 +1,7 @@
 import { QueryString } from "./lib/query-string";
 import { handleQuery } from "./lib/query-processing";
 import { QueryGroup } from "./lib/query-group";
+import { QueryFlags } from "./lib/config/flags";
 
 export namespace Query {
     export const New = QueryString.New;
@@ -13,5 +14,6 @@ export namespace Query {
          */
         export const ProcessGroup = handleQuery;
         export const IsQueryString = QueryString.Tools.isQueryString;
-    }
+    };
+    export const Flags = QueryFlags;
 }
