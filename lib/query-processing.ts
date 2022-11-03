@@ -29,13 +29,29 @@ export function handleQuery(qs: string, remoteValue: any, options?: {
 
     const parsedQS = QueryString.Tools.parseQS(qs);
     let isOK = false;
+    let isOKHasBeenRunned = false;
 
-    if (parsedQS.method === QueryTokens.Equality && (options?.lowComparator(parsedQS.value, remoteValue) || parsedQS.value === remoteValue)) isOK = true;
-    if (parsedQS.method === QueryTokens.Higherness && (options?.highComparator(parsedQS.value, remoteValue) || parsedQS.value < remoteValue)) isOK = true;
-    if (parsedQS.method === QueryTokens.Lowerness && (options?.eqComparator(parsedQS.value, remoteValue) || parsedQS.value > remoteValue)) isOK = true;
+    /** if the remote value is an array and if the `ForEachItem` flag is given, the handling is made by mapping each item */
+    if (Array.isArray(remoteValue) && parsedQS.goThroughtItemsOnArray) {
+        remoteValue.forEach(entryValue => {
+            /** continue looping until isOK is false again */
+            if (isOK === false && isOKHasBeenRunned) return;
+            else {
+                if (parsedQS.method === QueryTokens.Equality && (options?.lowComparator(parsedQS.value, entryValue) || parsedQS.value === entryValue)) isOK = true;
+                else if (parsedQS.method === QueryTokens.Higherness && (options?.highComparator(parsedQS.value, entryValue) || parsedQS.value < entryValue)) isOK = true;
+                else if (parsedQS.method === QueryTokens.Lowerness && (options?.eqComparator(parsedQS.value, entryValue) || parsedQS.value > entryValue)) isOK = true;
+                else isOK = false;
+                isOKHasBeenRunned = true;
+            }
+        });
+    } else {
+        if (parsedQS.method === QueryTokens.Equality && (options?.lowComparator(parsedQS.value, remoteValue) || parsedQS.value === remoteValue)) isOK = true;
+        if (parsedQS.method === QueryTokens.Higherness && (options?.highComparator(parsedQS.value, remoteValue) || parsedQS.value < remoteValue)) isOK = true;
+        if (parsedQS.method === QueryTokens.Lowerness && (options?.eqComparator(parsedQS.value, remoteValue) || parsedQS.value > remoteValue)) isOK = true;
+    }
 
     return {
-        result: (onEqual?: () => void, onFail?: () => void) => {
+        result(onEqual?: () => void, onFail?: () => void) {
             if (isOK && onEqual !== undefined) onEqual()
             else if (onFail !== undefined) onFail()
 

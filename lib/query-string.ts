@@ -1,3 +1,4 @@
+import { QueryFlags, QueryFlagsToken } from './config/flags';
 import Crypto from "@johanmnto/crypto";
 import { QueryTokens, ValueTokens } from "./config/tokens";
 
@@ -5,6 +6,21 @@ import { QueryTokens, ValueTokens } from "./config/tokens";
 export namespace QueryString {
     /** create a query-string which compares a value with a remote value */
     export namespace New {
+        export function withFlags(...flags: QueryFlags[]) {
+            return {
+                isEqual(value: any) {
+                    return QueryString.Tools.buildQS(value, QueryTokens.Equality, QueryTokens.RemoteValue, flags)
+                },
+                /** is the value pushed in the function lower than the remote value */
+                isLower(value: any) {
+                    return QueryString.Tools.buildQS(value, QueryTokens.Lowerness, QueryTokens.RemoteValue, flags)
+                },
+                /** is the value pushed in the function higher than the remote value */
+                isHigher(value: any) {
+                    return QueryString.Tools.buildQS(value, QueryTokens.Higherness, QueryTokens.RemoteValue, flags)
+                }
+            }
+        }
         export function isEqual(value: any) {
             return QueryString.Tools.buildQS(value, QueryTokens.Equality, QueryTokens.RemoteValue)
         }
@@ -30,15 +46,16 @@ export namespace QueryString {
             if (typeof value === "boolean") return ValueTokens.Boolean;
         }
         /** build a query string */
-        export function buildQS(value: any, comparison: string, target: string) {
-            return `${QueryTokens.QueryStringSignature}${QueryString.Tools.getValueToken(value)}->${Crypto.encode(value)}${comparison}${target}`;
+        export function buildQS(value: any, comparison: string, target: string, flags: QueryFlags[] = []) {
+            return `${QueryTokens.QueryStringSignature}${QueryFlagsToken.FlagsDefinitionOpenTag}${flags.join()}${QueryFlagsToken.FlagsDefinitionCloseTag}${QueryString.Tools.getValueToken(value)}${ValueTokens.ValueTypeSeparator}${Crypto.encode(value)}${comparison}${target}`;
         }
         /** parse a query string */
         export function parseQS(qs: string) {
-            const parsedData: {value: any, method: string, target: string} = {
+            const parsedData: { value: any, method: string, target: string, goThroughtItemsOnArray: boolean } = {
                 value: "",
                 method: "",
-                target: ""
+                target: "",
+                goThroughtItemsOnArray: qs.indexOf(QueryFlags.ForEachItem) > -1
             }
 
             /** determines what comparison is wanted in this querystring */
@@ -51,10 +68,10 @@ export namespace QueryString {
             const valuePackage = (qs.split(parsedData.method[0]) as string[])[0].split("->");
             valuePackage[1] = Crypto.decode(valuePackage[1]);
             /** determines and parses the value to compare */
-            if(valuePackage[0] === ValueTokens.Boolean) parsedData.value = valuePackage[1] === "true"
-            else if(valuePackage[0] === ValueTokens.Number) parsedData.value = parseInt(valuePackage[1])
-            else if(valuePackage[0] === ValueTokens.Object) parsedData.value = JSON.parse(valuePackage[1])
-            else if(valuePackage[0] === ValueTokens.String) parsedData.value = valuePackage[1]
+            if     (valuePackage[0].indexOf(ValueTokens.Boolean) > -1) parsedData.value = valuePackage[1] === "true"
+            else if (valuePackage[0].indexOf(ValueTokens.Number) > -1) parsedData.value = parseInt(valuePackage[1])
+            else if (valuePackage[0].indexOf(ValueTokens.Object) > -1) parsedData.value = JSON.parse(valuePackage[1])
+            else if (valuePackage[0].indexOf(ValueTokens.String) > -1) parsedData.value = valuePackage[1]
             else throw Error("Failed to parse the value to be used: " + qs);
 
             /** determines the value to compare */
